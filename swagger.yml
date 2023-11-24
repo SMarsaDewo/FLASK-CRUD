@@ -1,0 +1,103 @@
+swagger: "2.0"
+info:
+  title: "User API"
+  version: "1.0"
+basePath: "/api"
+schemes:
+  - "http"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+paths:
+  /users:
+    get:
+      summary: "Get all users"
+      responses:
+        200:
+          description: "A list of users"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/User"
+      x-swagger-router-controller: "resources.user"
+      operationId: "UserListResource.get"
+    post:
+      summary: "Create a new user"
+      parameters:
+        - name: "user"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "The created user"
+          schema:
+            $ref: "#/definitions/User"
+      x-swagger-router-controller: "resources.user"
+      operationId: "UserListResource.post"
+  /users/{user_id}:
+    get:
+      summary: "Get a user by id"
+      parameters:
+        - name: "user_id"
+          in: "path"
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: "The user"
+          schema:
+            $ref: "#/definitions/User"
+        404:
+          description: "User not found"
+      x-swagger-router-controller: "resources.user"
+      operationId: "UserResource.get"
+    patch:
+      summary: "Update a user by id"
+      parameters:
+        - name: "user_id"
+          in: "path"
+          required: true
+          type: "integer"
+        - name: "user"
+          in: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "The updated user"
+          schema:
+            $ref: "#/definitions/User"
+        404:
+          description: "User not found"
+      x-swagger-router-controller: "resources.user"
+      operationId: "UserResource.patch"
+    delete:
+      summary: "Delete a user by id"
+      parameters:
+        - name: "user_id"
+          in: "path"
+          required: true
+          type: "integer"
+      responses:
+        204:
+          description: "User deleted"
+        404:
+          description: "User not found"
+      x-swagger-router-controller: "resources.user"
+      operationId: "UserResource.delete"
